@@ -11,8 +11,25 @@ const Select: React.ComponentType<SelectProps> = ({
   field,
   form: { isSubmitting },
   disabled = false,
+  onBlur,
   ...props
-}) => <MuiSelect disabled={isSubmitting || disabled} {...props} {...field} />;
+}) => {
+  const handleBlur = (e: any) => {
+    field.onBlur(e);
+    if (onBlur) {
+      onBlur(e);
+    }
+  };
+
+  return (
+    <MuiSelect
+      disabled={isSubmitting || disabled}
+      {...props}
+      {...field}
+      onBlur={handleBlur}
+    />
+  );
+};
 
 Select.displayName = 'FormikMaterialUISelect';
 

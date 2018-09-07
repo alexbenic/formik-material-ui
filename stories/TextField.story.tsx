@@ -38,6 +38,7 @@ export default () => (
           <Field
             type="email"
             label="Email"
+            onBlur={action('blur')}
             name="email"
             component={TextField}
           />

@@ -14,16 +14,26 @@ const Checkbox: React.ComponentType<CheckboxProps> = ({
   field,
   form: { isSubmitting },
   disabled = false,
+  onBlur,
   ...props
-}) => (
-  <MuiCheckbox
-    disabled={isSubmitting || disabled}
-    {...props}
-    {...field}
-    // TODO: is this the correct way?
-    value={field.value ? 'checked' : ''}
-  />
-);
+}) => {
+  const handleBlur = (e: any) => {
+    field.onBlur(e);
+    if (onBlur) {
+      onBlur(e);
+    }
+  };
+
+  return (
+    <MuiCheckbox
+      disabled={isSubmitting || disabled}
+      {...props}
+      {...field}
+      onBlur={handleBlur}
+      value={field.value ? 'checked' : ''}
+    />
+  );
+};
 
 Checkbox.displayName = 'FormikMaterialUICheckbox';
 

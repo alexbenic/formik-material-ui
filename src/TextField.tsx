@@ -13,6 +13,7 @@ export const fieldToTextField = ({
   field,
   form,
   disabled = false,
+  onBlur,
   ...props
 }: TextFieldProps): MuiTextFieldProps => {
   const { name } = field;
@@ -21,9 +22,17 @@ export const fieldToTextField = ({
   const fieldError = getIn(errors, name);
   const showError = getIn(touched, name) && !!fieldError;
 
+  const handleBlur = (e: React.ChangeEvent<HTMLElement>): void => {
+    field.onBlur(e);
+    if (onBlur) {
+      onBlur(e);
+    }
+  };
+
   return {
     ...props,
     ...field,
+    onBlur: handleBlur,
     error: showError,
     helperText: showError ? fieldError : props.helperText,
     disabled: isSubmitting || disabled,
